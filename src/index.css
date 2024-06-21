@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Outfit Variable";
+    src: url("../fonts/outfit-latin-wght-normal.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  html {
+    font-family: "Outfit Variable", sans-serif;
+    @apply bg-zinc-50 text-zinc-950;
+  }
+}
+.__cart-cont:hover .__cart-dropdown {
+  @apply block;
+}
+@media screen and (min-width: 425px) {
+  .__cart-dropdown {
+    min-width: 320px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .__cart-dropdown {
+    min-width: 450px;
+  }
+}
