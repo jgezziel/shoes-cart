@@ -15,6 +15,8 @@ Este proyecto permite lo siguiente:
 \*Existen algunas ventanas de aviso y/o confirmación con información extra.
 \*Únicamente se simula un carrito de compras.
 
+URL del proyecto desplegado: [Visitar el carrito de compras](https://shoes-cart-jgezziel.pages.dev/)
+
 ## Información tecnica
 
 Las tecnologias y herramientas usadas en el proyecto son las siguientes:
