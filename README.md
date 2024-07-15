@@ -22,7 +22,7 @@ URL del proyecto desplegado: [Visitar el carrito de compras](https://shoes-cart-
 Las tecnologias y herramientas usadas en el proyecto son las siguientes:
 
 - **React**
-  - useState
+  - useReducer
   - useEffect
   - useMemo
 - **Typescript**

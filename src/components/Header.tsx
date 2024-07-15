@@ -1,25 +1,28 @@
-import type { CartItem, ShoeID } from "@/types";
+import type { CartItem } from "@/types";
 import IconCart from "./IconCart";
+import { type Dispatch, useMemo } from "react";
+import type { CartActions } from "@/reducers/cartReducer";
 
 type HeaderProps = {
   cart: CartItem[];
-  removeFromCart: (id: ShoeID) => void;
-  decreaseQuantity: (id: ShoeID) => void;
-  increaseQuantity: (id: ShoeID) => void;
-  clearCart: () => void;
-  isEmpty: boolean;
-  cartTotal: number;
+  dispatch: Dispatch<CartActions>;
 };
 
-const Header = ({
-  cart,
-  removeFromCart,
-  decreaseQuantity,
-  increaseQuantity,
-  clearCart,
-  isEmpty,
-  cartTotal,
-}: HeaderProps) => {
+const Header = ({ cart, dispatch }: HeaderProps) => {
+  //state derivado
+  const isEmpty = useMemo(() => cart.length === 0, [cart]);
+  const cartTotal = useMemo(
+    () =>
+      cart.reduce((total, { price, quantity }) => total + price * quantity, 0),
+    [cart]
+  );
+
+  const handleClearCart = () => {
+    const confirm = window.confirm("¿Estás seguro de vaciar el carrito?");
+    if (!confirm) return;
+    dispatch({ type: "CLEAR_CART" });
+  };
+
   return (
     <>
       <header className="bg-zinc-900">
@@ -70,7 +73,12 @@ const Header = ({
                                   {...(item.quantity === 1 && {
                                     disabled: true,
                                   })}
-                                  onClick={() => decreaseQuantity(item.id)}
+                                  onClick={() =>
+                                    dispatch({
+                                      type: "DECREASE_QUANTITY",
+                                      payload: { id: item.id },
+                                    })
+                                  }
                                 >
                                   &#8722;
                                 </button>
@@ -81,7 +89,12 @@ const Header = ({
                                   {...(item.quantity === 3 && {
                                     disabled: true,
                                   })}
-                                  onClick={() => increaseQuantity(item.id)}
+                                  onClick={() =>
+                                    dispatch({
+                                      type: "INCREASE_QUANTITY",
+                                      payload: { id: item.id },
+                                    })
+                                  }
                                 >
                                   &#43;
                                 </button>
@@ -91,7 +104,12 @@ const Header = ({
                               <button
                                 type="button"
                                 className="font-medium text-white transition-all bg-red-500 rounded-full hover:bg-red-600 size-8"
-                                onClick={() => removeFromCart(item.id)}
+                                onClick={() =>
+                                  dispatch({
+                                    type: "REMOVE_FROM_CART",
+                                    payload: { id: item.id },
+                                  })
+                                }
                               >
                                 &#10005;
                               </button>
@@ -112,7 +130,7 @@ const Header = ({
                 <button
                   type="button"
                   className="w-full py-2 font-bold text-white transition-all bg-red-500 rounded hover:bg-red-600 focus:bg-red-100 focus:text-red-500 focus:ring-1 focus:ring-red-200 focus:scale-95 disabled:bg-zinc-200 disabled:text-zinc-500 disabled:cursor-not-allowed"
-                  onClick={clearCart}
+                  onClick={handleClearCart}
                   disabled={isEmpty}
                 >
                   Vaciar Carrito

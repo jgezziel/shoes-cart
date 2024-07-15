@@ -1,11 +1,13 @@
+import type { Dispatch } from "react";
+import type { CartActions } from "@/reducers/cartReducer";
 import type { Shoe as ShoeType } from "@/types";
 
 type ShoeProps = {
   shoe: ShoeType;
-  addToCart: (item: ShoeType) => void;
+  dispatch: Dispatch<CartActions>;
 };
 
-const Shoe = ({ shoe, addToCart }: ShoeProps) => {
+const Shoe = ({ shoe, dispatch }: ShoeProps) => {
   return (
     <li
       key={shoe.id}
@@ -29,7 +31,9 @@ const Shoe = ({ shoe, addToCart }: ShoeProps) => {
             {shoe.brand}
           </p>
           <button
-            onClick={() => addToCart(shoe)}
+            onClick={() =>
+              dispatch({ type: "ADD_TO_CART", payload: { item: shoe } })
+            }
             type="button"
             className="w-full py-2 font-bold text-white transition-all rounded bg-zinc-900 hover:bg-zinc-800 focus:bg-zinc-200 focus:text-zinc-900 focus:ring-1 focus:ring-zinc-300 focus:scale-95"
           >
